@@ -1,0 +1,87 @@
+{% extends 'index.html' %}
+{% block body %}
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Bus</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+{#            display: flex;#}
+            justify-content: center;
+{#            align-items: center;#}
+{#            height: 100vh;#}
+        }
+
+        form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            background-color: #2980b9;
+            color: white;
+            padding: 12px;
+            border: none;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1f6690;
+        }
+    </style>
+</head>
+<body>
+
+<form method="post" action="/myapp/addbusstaffpost/">
+    {% csrf_token %}
+    <h2>Add New Bus  Staff </h2>
+
+
+
+
+
+    <input type="text" name="name" placeholder="Enter name" required>
+    <input type="text" name="email" placeholder="Enter email" required>
+    <input type="text" name="place" placeholder="Enter place" required>
+    <input type="text" name="post" placeholder="Enter post" required>
+    <input type="text" name="district" placeholder="Enter district" required>
+    <input type="number" name="phone" placeholder="Enter phone" required>
+    <input type="text" name="username" placeholder="Enter username" required>
+    <input type="text" name="password" placeholder="Enter password" required>
+
+    <label for="route">Select bus:</label>
+    <select name="AssignedBus" id="AssignedBus" required>
+        <option value="">-- Select bus --</option>
+        {% for i in val %}
+            <option value="{{ i.id }}">{{ i.bus_no }}</option>
+        {% endfor %}
+    </select>
+
+    <input type="submit" value="Save Bus">
+</form>
+
+</body>
+{% endblock %}

@@ -1,0 +1,215 @@
+{#{% extends 'index.html' %}#}
+{#{% block body %}#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Bus List</title>#}
+{#    <style>#}
+{#        body {#}
+{#            font-family: Arial, sans-serif;#}
+{#            padding: 40px;#}
+{#            background-color: #f2f2f2;#}
+{#        }#}
+{##}
+{#        h1 {#}
+{#            text-align: center;#}
+{#            color: #333;#}
+{#        }#}
+{##}
+{#        .add-btn {#}
+{#            display: inline-block;#}
+{#            padding: 10px 15px;#}
+{#            background-color: #2980b9;#}
+{#            color: white;#}
+{#            text-decoration: none;#}
+{#            border-radius: 5px;#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{##}
+{#        .add-btn:hover {#}
+{#            background-color: #1f6690;#}
+{#        }#}
+{##}
+{#        table {#}
+{#            width: 100%;#}
+{#            border-collapse: collapse;#}
+{#            background-color: white;#}
+{#        }#}
+{##}
+{#        th, td {#}
+{#            padding: 12px 15px;#}
+{#            border: 1px solid #ddd;#}
+{#            text-align: left;#}
+{#        }#}
+{##}
+{#        th {#}
+{#            background-color: #2980b9;#}
+{#            color: white;#}
+{#        }#}
+{##}
+{#        td a {#}
+{#            color: #2980b9;#}
+{#            text-decoration: none;#}
+{#        }#}
+{##}
+{#        td a:hover {#}
+{#            text-decoration: underline;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#    <h1>All Buses</h1>#}
+{##}
+{#    <a href="/myapp/addbus/" class="add-btn">Add New Bus</a>#}
+{##}
+{#    <table>#}
+{#        <tr>#}
+{#            <th>Bus Number</th>#}
+{#            <th>Capacity</th>#}
+{#            <th>Status</th>#}
+{#            <th>Name</th>#}
+{##}
+{#            <th>Actions</th>#}
+{#        </tr>#}
+{#        {% for bus in buss %}#}
+{#        <tr>#}
+{#            <td>{{ bus.bus_no }}</td>#}
+{#            <td>{{ bus.capacity }}</td>#}
+{#            <td>{{ bus.status }}</td>#}
+{#            <td>{{ bus.name }}</td>#}
+{##}
+{#            <td>#}
+{#                <a href="/myapp/bus_edit{{ bus.id }}">Edit</a> |#}
+{#                <a href="/myapp/bus_delete/{{bus.id}}">Delete</a>#}
+{#            </td>#}
+{#        </tr>#}
+{#        {% empty %}#}
+{#        <tr>#}
+{#            <td colspan="7" style="text-align: center;">No buses found.</td>#}
+{#        </tr>#}
+{#        {% endfor %}#}
+{#    </table>#}
+{##}
+{#</body>#}
+{#{% endblock %}#}
+
+
+{% extends 'index.html' %}
+
+{% block body %}
+<head>
+    <meta charset="UTF-8">
+    <title>Bus List</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            padding-top: 50px;
+        }
+
+        h1 {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn-primary {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        .btn-primary:hover {
+            background-color: #1f6690;
+            border-color: #1f6690;
+        }
+
+        .table th {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 4px 10px;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">All Buses</h1>
+
+        <div class="text-end mb-3">
+            <a href="/myapp/addbus/" class="btn btn-primary">+ Add New Bus</a>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table id="busTable" class="table table-bordered table-hover m-0">
+                        <thead>
+                            <tr>
+                                <th>Bus Number</th>
+                                <th>Capacity</th>
+                                <th>Status</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for bus in buss %}
+                            <tr>
+                                <td>{{ bus.bus_no }}</td>
+                                <td>{{ bus.capacity }}</td>
+                                <td>{{ bus.status }}</td>
+                                <td>{{ bus.name }}</td>
+                                <td>
+                                    {# Uncomment if edit is available #}
+                                    {# <a href="/myapp/bus_edit/{{ bus.id }}" class="btn btn-warning btn-sm">Edit</a> #}
+                                    <a href="/myapp/bus_delete/{{ bus.id }}" class="btn btn-danger btn-sm"
+                                       onclick="return confirm('Are you sure you want to delete this bus?');">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No buses found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS: jQuery + Bootstrap + DataTables -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Initialize DataTable -->
+    <script>
+        $(document).ready(function () {
+            $('#busTable').DataTable({
+                language: {
+                    search: "Search buses:",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ to _END_ of _TOTAL_ buses",
+                    zeroRecords: "No matching buses found",
+                    infoEmpty: "No buses available",
+                    infoFiltered: "(filtered from _MAX_ total buses)"
+                }
+            });
+        });
+    </script>
+</body>
+{% endblock %}
